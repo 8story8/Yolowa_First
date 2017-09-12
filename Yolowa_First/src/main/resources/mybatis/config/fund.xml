@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fund">
+	<resultMap type="boardVO" id="list">
+		<result column="ftitle" property="fvo.fTitle" />
+		<result column="name" property="mvo.name" />
+		<result column="fpeople" property="fvo.fPeople" />
+	</resultMap>
+	<resultMap type="map" id="fundListRM">
+		<result property="bNo" column="bNo" />
+		<result property="bType" column="bType" />
+		<result property="id" column="id" />
+		<result property="bPostdate" column="bPostdate" />
+		<result property="bContent" column="bContent" jdbcType="CLOB"
+			javaType="java.lang.String" />
+		<result property="local" column="local" />
+		<result property="filepath" column="filepath" />
+		<result property="countlike" column="countlike" />
+	</resultMap>
+	
+	<select id="getFundingBybNo" parameterType="Integer" resultMap="fundListRM" >
+		select  bo.*,bop.*,f.*
+      	from Y_BOARD bo, BOARD_OPT bop, funding f
+      	where bop.bNo=bo.bNo and bop.bNo=f.bNo and bo.bNo=f.bNo and bo.bNo=#{value}
+	</select>
+	<update id="modifyBoard" parameterType="map">
+		update y_board set bContent=#{bContent}, bType=#{bType} where bNo=#{bNo}
+	</update>
+	<update id="modifyBoardopt" parameterType="map">
+		update board_opt set local=#{local}, filepath=#{filepath} where bNo=#{bNo}
+	</update>
+	<update id="modifyFunding" parameterType="map">
+		update funding set fTitle=#{fTitle}, fPoint=#{fPoint},fDeadLine=#{fDeadLine},
+		fPeople=#{fPeople} where bNo=#{bNo}
+	</update>
+	<select id="selectCountFunding" parameterType="map" resultType="Integer">
+		select count(id) from paticipant where bNo=#{bNo}
+	</select>
+	<insert id="applyFunding" parameterType="map">
+		insert into PATICIPANT values(#{id},#{bNo},10)
+	</insert>
+	<select id="getPaticipantInfo" resultType="map">
+		select * from PATICIPANT
+	</select>
+</mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
